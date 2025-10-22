@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: CostDataRetriever
+  version: 1.0.0
+  description: API for retrieving EC2 resource utilization and metadata.
+servers:
+  - url: /
+paths:
+  /get_ec2_cpu_utilization:
+    post:
+      summary: Get EC2 CPU Utilization
+      description: Retrieves the current instance type and average CPU utilization over the last 24 hours for a specified EC2 instance ID.
+      operationId: get_ec2_cpu_utilization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instance_id:
+                  type: string
+                  description: The ID of the EC2 instance (e.g., i-0abcdef1234567890).
+              required:
+                - instance_id
+      responses:
+        "200":
+          description: Successful retrieval of instance data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instance_id:
+                    type: string
+                  instance_type:
+                    type: string
+                    description: The current EC2 instance type (e.g., t3.medium).
+                  average_cpu_utilization_24h:
+                    type: number
+                    format: float
+                    description: The average CPU utilization percentage over the last 24 hours.
+                  message:
+                    type: string
